@@ -5,413 +5,443 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendências - Casa Romeu</title>
     <style>
+        :root {
+            --azul:   #12273A;
+            --azul2:  #1a3550;
+            --ambar:  #CD7B1E;
+            --ambar2: #A74F00;
+            --cinza:  #F2F2F2;
+            --bg:     #f0eeea;
+            --branco: #ffffff;
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg);
             color: #333;
-            line-height: 1.6;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        /* ── HEADER ── */
+        .header {
+            background: var(--azul);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            height: 70px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
         }
-
-        header {
-            background: white;
-            padding: 30px;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .header img {
+            height: 52px;
+            width: auto;
+            flex-shrink: 0;
         }
-
-        h1 {
-            font-size: 28px;
+        .header-title {
+            margin-left: 20px;
+            color: #ffffff;
+        }
+        .header-title h1 {
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 10px;
+            letter-spacing: 0.02em;
+        }
+        .header-title p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 2px;
         }
 
+        /* ── CONTENT ── */
+        .container {
+            max-width: 1100px;
+            padding: 24px;
+        }
+
+        /* ── STATS ── */
         .stats {
             display: flex;
-            gap: 20px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
-
         .stat-card {
-            background: #f8f9fa;
-            padding: 15px 20px;
-            border-radius: 6px;
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .stat-number {
-            font-size: 32px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .section {
-            background: white;
-            padding: 30px;
-            margin-bottom: 20px;
+            background: var(--branco);
+            padding: 16px 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 140px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+        }
+        .stat-number {
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--azul);
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-top: 2px;
         }
 
-        h2 {
-            font-size: 20px;
+        /* ── SECTION ── */
+        .section {
+            background: var(--branco);
+            padding: 28px 30px;
             margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+        }
+        h2 {
+            font-size: 16px;
             font-weight: 600;
+            color: var(--azul);
+            margin-bottom: 20px;
         }
 
+        /* ── PENDÊNCIA ITEM ── */
         .pendencia-item {
             border-left: 4px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: #fafafa;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            background: #fafaf8;
             border-radius: 4px;
         }
-
-        .pendencia-item.crucial { border-left-color: #dc3545; }
-        .pendencia-item.importante { border-left-color: #ffc107; }
-        .pendencia-item.normal { border-left-color: #28a745; }
+        .pendencia-item.crucial    { border-left-color: #e74c3c; }
+        .pendencia-item.importante { border-left-color: var(--ambar); }
+        .pendencia-item.normal     { border-left-color: #27ae60; }
 
         .pendencia-title {
             font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 15px;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #222;
         }
-
         .pendencia-obs {
-            color: #666;
-            font-size: 14px;
+            color: #777;
+            font-size: 13px;
             margin-bottom: 8px;
         }
 
-        .pendencia-priority {
+        .badge {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 3px;
-            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
             font-weight: 600;
-            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
+        .priority-crucial   { background: #fff0f0; color: #c0392b; }
+        .priority-importante { background: #fef9e2; color: #9a7a00; }
+        .priority-normal    { background: #eaf5ee; color: #2e7a4a; }
 
-        .priority-crucial { background: #dc3545; color: white; }
-        .priority-importante { background: #ffc107; color: #333; }
-        .priority-normal { background: #28a745; color: white; }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
+        /* ── FORM ── */
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            font-size: 14px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
         }
-
         input[type="text"],
         textarea,
         select {
             width: 100%;
-            padding: 12px;
+            padding: 10px 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 14px;
             font-family: inherit;
+            background: var(--branco);
+            color: #333;
+            outline: none;
+            transition: border-color 0.2s;
         }
-
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus { border-color: var(--ambar); }
         textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 90px;
         }
 
         button {
-            background: #333;
+            background: var(--azul);
             color: white;
-            padding: 14px 28px;
+            padding: 11px 28px;
             border: none;
             border-radius: 6px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
+            font-family: inherit;
             cursor: pointer;
             transition: background 0.2s;
+            margin-top: 8px;
         }
+        button:hover   { background: var(--ambar2); }
+        button:disabled { background: #aaa; cursor: default; }
 
-        button:hover {
-            background: #000;
-        }
-
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
+        /* ── LOADING ── */
         .loading {
             display: none;
             text-align: center;
             padding: 40px;
+            color: #aaa;
+            font-size: 13px;
         }
-
         .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #333;
+            border: 2px solid #eee;
+            border-top: 2px solid var(--ambar);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
+            width: 28px;
+            height: 28px;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 12px;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        /* ── MESSAGES ── */
         .message {
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 16px;
             display: none;
+            font-size: 14px;
         }
-
         .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: #eaf5ee;
+            color: #2d7a4a;
+            border: 1px solid #b2dfc0;
         }
-
         .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: #fff0f0;
+            color: #c0392b;
+            border: 1px solid #fcc;
         }
 
+        /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-
-            header, .section {
-                padding: 20px;
-            }
-
-            .stats {
-                flex-direction: column;
-            }
-
-            .stat-card {
-                min-width: 100%;
-            }
+            .container { padding: 12px; }
+            .section { padding: 20px; }
+            .stats { flex-direction: column; }
+            .stat-card { min-width: 100%; }
+        }
+        @media (max-width: 600px) {
+            .header { padding: 0 14px; height: 60px; }
+            .header img { height: 38px; }
+            .header-title h1 { font-size: 15px; }
+            .header-title p { display: none; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📋 Painel de Pendências</h1>
-            <p>Casa Romeu - Gestão de Tarefas</p>
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="total-count">-</div>
-                    <div class="stat-label">Total</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="crucial-count">-</div>
-                    <div class="stat-label">Crucial</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="importante-count">-</div>
-                    <div class="stat-label">Importante</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="normal-count">-</div>
-                    <div class="stat-label">Normal</div>
-                </div>
-            </div>
-        </header>
 
-        <div class="section">
-            <h2>➕ Nova Pendência</h2>
-            <div id="form-message" class="message"></div>
-            <form id="pendencia-form">
-                <div class="form-group">
-                    <label for="pendencia">Pendência *</label>
-                    <input type="text" id="pendencia" name="pendencia" required>
-                </div>
-                <div class="form-group">
-                    <label for="observacao">Observação</label>
-                    <textarea id="observacao" name="observacao"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="prioridade">Prioridade *</label>
-                    <select id="prioridade" name="prioridade" required>
-                        <option value="">Selecione...</option>
-                        <option value="CRUCIAL">CRUCIAL</option>
-                        <option value="IMPORTANTE">IMPORTANTE</option>
-                        <option value="NORMAL">NORMAL</option>
-                    </select>
-                </div>
-                <button type="submit" id="submit-btn">Adicionar Pendência</button>
-            </form>
+<div class="header">
+    <img src="https://rod-010.github.io/portal-casa-romeu/Logo_Romeu_R_Invertido.png" alt="Casa Romeu">
+    <div class="header-title">
+        <h1>Painel de Pendências</h1>
+        <p>Casa Romeu — Gestão de Tarefas</p>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number" id="total-count">-</div>
+            <div class="stat-label">Total</div>
         </div>
-
-        <div class="section">
-            <h2>📌 Pendências Ativas</h2>
-            <div id="loading" class="loading">
-                <div class="spinner"></div>
-                <p>Carregando dados...</p>
-            </div>
-            <div id="pendencias-list"></div>
+        <div class="stat-card">
+            <div class="stat-number" id="crucial-count">-</div>
+            <div class="stat-label">Crucial</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="importante-count">-</div>
+            <div class="stat-label">Importante</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="normal-count">-</div>
+            <div class="stat-label">Normal</div>
         </div>
     </div>
 
-    <script>
-        // CONFIGURAÇÃO - URL DO WEB APP
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-0VSknXc-TKTZ_0x3ZnTpFEy9_fm30ehkc8bBBkP-bnw7pwICjQgiehErKudTPF1u/exec';
-        const SHEET_ID = '1C0bPgXV24nSfDPkwAeHIYU6ml-l36DcU_78FLQuZUtE';
+    <div class="section">
+        <h2>Nova Pendência</h2>
+        <div id="form-message" class="message"></div>
+        <form id="pendencia-form">
+            <div class="form-group">
+                <label for="pendencia">Pendência *</label>
+                <input type="text" id="pendencia" name="pendencia" required>
+            </div>
+            <div class="form-group">
+                <label for="observacao">Observação</label>
+                <textarea id="observacao" name="observacao"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="prioridade">Prioridade *</label>
+                <select id="prioridade" name="prioridade" required>
+                    <option value="">Selecione...</option>
+                    <option value="CRUCIAL">CRUCIAL</option>
+                    <option value="IMPORTANTE">IMPORTANTE</option>
+                    <option value="NORMAL">NORMAL</option>
+                </select>
+            </div>
+            <button type="submit" id="submit-btn">Adicionar Pendência</button>
+        </form>
+    </div>
 
-        // Carregar dados ao iniciar
-        document.addEventListener('DOMContentLoaded', loadPendencias);
+    <div class="section">
+        <h2>Pendências Ativas</h2>
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            Carregando dados...
+        </div>
+        <div id="pendencias-list"></div>
+    </div>
 
-        // Submit do formulário
-        document.getElementById('pendencia-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submit-btn');
-            const message = document.getElementById('form-message');
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
-            message.style.display = 'none';
+</div>
 
-            const formData = {
-                action: 'add',
-                pendencia: document.getElementById('pendencia').value,
-                observacao: document.getElementById('observacao').value,
-                prioridade: document.getElementById('prioridade').value
-            };
+<script>
+    // CONFIGURAÇÃO - URL DO WEB APP
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-0VSknXc-TKTZ_0x3ZnTpFEy9_fm30ehkc8bBBkP-bnw7pwICjQgiehErKudTPF1u/exec';
+    const SHEET_ID = '1C0bPgXV24nSfDPkwAeHIYU6ml-l36DcU_78FLQuZUtE';
 
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
+    // Carregar dados ao iniciar
+    document.addEventListener('DOMContentLoaded', loadPendencias);
 
-                // Como está em no-cors, assumimos sucesso
-                message.className = 'message success';
-                message.textContent = '✓ Pendência adicionada com sucesso!';
-                message.style.display = 'block';
-                
-                // Limpar form
-                document.getElementById('pendencia-form').reset();
-                
-                // Recarregar lista após 1 segundo
-                setTimeout(loadPendencias, 1000);
+    // Submit do formulário
+    document.getElementById('pendencia-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-            } catch (error) {
-                message.className = 'message error';
-                message.textContent = '✗ Erro ao adicionar pendência. Tente novamente.';
-                message.style.display = 'block';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Adicionar Pendência';
-            }
-        });
+        const submitBtn = document.getElementById('submit-btn');
+        const message = document.getElementById('form-message');
 
-        async function loadPendencias() {
-            const loading = document.getElementById('loading');
-            const list = document.getElementById('pendencias-list');
-            
-            loading.style.display = 'block';
-            list.innerHTML = '';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+        message.style.display = 'none';
 
-            try {
-                const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Pendencias`;
-                const response = await fetch(url);
-                const text = await response.text();
-                
-                // Parse do JSON do Google Sheets
-                const json = JSON.parse(text.substr(47).slice(0, -2));
-                const rows = json.table.rows;
+        const formData = {
+            action: 'add',
+            pendencia: document.getElementById('pendencia').value,
+            observacao: document.getElementById('observacao').value,
+            prioridade: document.getElementById('prioridade').value
+        };
 
-                if (!rows || rows.length === 0) {
-                    list.innerHTML = '<p style="color: #666;">Nenhuma pendência encontrada.</p>';
-                    return;
-                }
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
 
-                // Contadores
-                let crucial = 0, importante = 0, normal = 0;
+            // Como está em no-cors, assumimos sucesso
+            message.className = 'message success';
+            message.textContent = '✓ Pendência adicionada com sucesso!';
+            message.style.display = 'block';
 
-                // Renderizar pendências (ignorar header)
-                rows.forEach(row => {
-                    const pendencia = row.c[0]?.v || '';
-                    const observacao = row.c[1]?.v || '';
-                    const prioridade = row.c[2]?.v || '';
-                    const resolvido = row.c[3]?.v || '';
+            // Limpar form
+            document.getElementById('pendencia-form').reset();
 
-                    // Ignorar se resolvido ou se for header
-                    if (resolvido === 'SIM' || pendencia === 'Pendencia' || !pendencia) return;
+            // Recarregar lista após 1 segundo
+            setTimeout(loadPendencias, 1000);
 
-                    // Contar prioridades
-                    if (prioridade.includes('CRUCIAL')) crucial++;
-                    else if (prioridade.includes('IMPORTANTE')) importante++;
-                    else if (prioridade.includes('NORMAL')) normal++;
-
-                    const priorityClass = prioridade.includes('CRUCIAL') ? 'crucial' : 
-                                         prioridade.includes('IMPORTANTE') ? 'importante' : 'normal';
-                    
-                    const priorityBadge = prioridade.includes('CRUCIAL') ? 'priority-crucial' : 
-                                         prioridade.includes('IMPORTANTE') ? 'priority-importante' : 'priority-normal';
-
-                    const item = `
-                        <div class="pendencia-item ${priorityClass}">
-                            <div class="pendencia-title">${pendencia}</div>
-                            ${observacao ? `<div class="pendencia-obs">${observacao}</div>` : ''}
-                            <span class="pendencia-priority ${priorityBadge}">${prioridade.split('...')[0]}</span>
-                        </div>
-                    `;
-                    list.innerHTML += item;
-                });
-
-                // Atualizar stats
-                document.getElementById('total-count').textContent = crucial + importante + normal;
-                document.getElementById('crucial-count').textContent = crucial;
-                document.getElementById('importante-count').textContent = importante;
-                document.getElementById('normal-count').textContent = normal;
-
-            } catch (error) {
-                console.error('Erro ao carregar pendências:', error);
-                list.innerHTML = '<p style="color: #dc3545;">Erro ao carregar dados. Verifique a planilha.</p>';
-            } finally {
-                loading.style.display = 'none';
-            }
+        } catch (error) {
+            message.className = 'message error';
+            message.textContent = '✗ Erro ao adicionar pendência. Tente novamente.';
+            message.style.display = 'block';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Adicionar Pendência';
         }
+    });
 
-        // Atualizar a cada 30 segundos
-        setInterval(loadPendencias, 30000);
-    </script>
+    async function loadPendencias() {
+        const loading = document.getElementById('loading');
+        const list = document.getElementById('pendencias-list');
+
+        loading.style.display = 'block';
+        list.innerHTML = '';
+
+        try {
+            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Pendencias`;
+            const response = await fetch(url);
+            const text = await response.text();
+
+            // Parse do JSON do Google Sheets
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            const rows = json.table.rows;
+
+            if (!rows || rows.length === 0) {
+                list.innerHTML = '<p style="color: #bbb; font-size: 13px;">Nenhuma pendência encontrada.</p>';
+                return;
+            }
+
+            // Contadores
+            let crucial = 0, importante = 0, normal = 0;
+
+            // Renderizar pendências (ignorar header)
+            rows.forEach(row => {
+                const pendencia = row.c[0]?.v || '';
+                const observacao = row.c[1]?.v || '';
+                const prioridade = row.c[2]?.v || '';
+                const resolvido = row.c[3]?.v || '';
+
+                // Ignorar se resolvido ou se for header
+                if (resolvido === 'SIM' || pendencia === 'Pendencia' || !pendencia) return;
+
+                // Contar prioridades
+                if (prioridade.includes('CRUCIAL')) crucial++;
+                else if (prioridade.includes('IMPORTANTE')) importante++;
+                else if (prioridade.includes('NORMAL')) normal++;
+
+                const priorityClass = prioridade.includes('CRUCIAL') ? 'crucial' :
+                                     prioridade.includes('IMPORTANTE') ? 'importante' : 'normal';
+
+                const priorityBadge = prioridade.includes('CRUCIAL') ? 'priority-crucial' :
+                                     prioridade.includes('IMPORTANTE') ? 'priority-importante' : 'priority-normal';
+
+                const item = `
+                    <div class="pendencia-item ${priorityClass}">
+                        <div class="pendencia-title">${pendencia}</div>
+                        ${observacao ? `<div class="pendencia-obs">${observacao}</div>` : ''}
+                        <span class="badge ${priorityBadge}">${prioridade.split('...')[0]}</span>
+                    </div>
+                `;
+                list.innerHTML += item;
+            });
+
+            // Atualizar stats
+            document.getElementById('total-count').textContent = crucial + importante + normal;
+            document.getElementById('crucial-count').textContent = crucial;
+            document.getElementById('importante-count').textContent = importante;
+            document.getElementById('normal-count').textContent = normal;
+
+        } catch (error) {
+            console.error('Erro ao carregar pendências:', error);
+            list.innerHTML = '<p style="color: #c0392b; font-size: 13px;">Erro ao carregar dados. Verifique a planilha.</p>';
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+
+    // Atualizar a cada 30 segundos
+    setInterval(loadPendencias, 30000);
+</script>
 </body>
 </html>
