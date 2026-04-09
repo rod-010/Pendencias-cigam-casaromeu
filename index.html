@@ -232,6 +232,42 @@
             border: 1px solid #fcc;
         }
 
+        /* ── FILTERS ── */
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filters select {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 13px;
+            background: var(--branco);
+            color: #333;
+            outline: none;
+            flex: 1;
+            min-width: 160px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .filters select:focus { border-color: var(--ambar); }
+        .btn-clear {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 12px;
+            color: #888;
+            cursor: pointer;
+            white-space: nowrap;
+            margin-top: 0;
+            transition: all 0.2s;
+        }
+        .btn-clear:hover { border-color: var(--ambar); color: var(--ambar); background: none; }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
             .container { padding: 12px; }
@@ -279,6 +315,24 @@
     </div>
 
     <div class="section">
+        <h2>Pendências Ativas</h2>
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            Carregando dados...
+        </div>
+        <div class="filters" id="filtros-wrap" style="display:none">
+            <select id="sel-prioridade" onchange="aplicarFiltro()">
+                <option value="">Todas as prioridades</option>
+                <option value="crucial">CRUCIAL</option>
+                <option value="importante">IMPORTANTE</option>
+                <option value="normal">NORMAL</option>
+            </select>
+            <button class="btn-clear" onclick="limparFiltro()">Limpar filtro</button>
+        </div>
+        <div id="pendencias-list"></div>
+    </div>
+
+    <div class="section">
         <h2>Nova Pendência</h2>
         <div id="form-message" class="message"></div>
         <form id="pendencia-form">
@@ -301,15 +355,6 @@
             </div>
             <button type="submit" id="submit-btn">Adicionar Pendência</button>
         </form>
-    </div>
-
-    <div class="section">
-        <h2>Pendências Ativas</h2>
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-            Carregando dados...
-        </div>
-        <div id="pendencias-list"></div>
     </div>
 
 </div>
@@ -417,7 +462,7 @@
                                      prioridade.includes('IMPORTANTE') ? 'priority-importante' : 'priority-normal';
 
                 const item = `
-                    <div class="pendencia-item ${priorityClass}">
+                    <div class="pendencia-item ${priorityClass}" data-prioridade="${priorityClass}">
                         <div class="pendencia-title">${pendencia}</div>
                         ${observacao ? `<div class="pendencia-obs">${observacao}</div>` : ''}
                         <span class="badge ${priorityBadge}">${prioridade.split('...')[0]}</span>
@@ -425,6 +470,9 @@
                 `;
                 list.innerHTML += item;
             });
+
+            // Mostrar filtros se houver itens
+            document.getElementById('filtros-wrap').style.display = (crucial + importante + normal) > 0 ? 'flex' : 'none';
 
             // Atualizar stats
             document.getElementById('total-count').textContent = crucial + importante + normal;
@@ -438,6 +486,18 @@
         } finally {
             loading.style.display = 'none';
         }
+    }
+
+    function aplicarFiltro() {
+        const valor = document.getElementById('sel-prioridade').value;
+        document.querySelectorAll('#pendencias-list .pendencia-item').forEach(el => {
+            el.style.display = (!valor || el.dataset.prioridade === valor) ? '' : 'none';
+        });
+    }
+
+    function limparFiltro() {
+        document.getElementById('sel-prioridade').value = '';
+        aplicarFiltro();
     }
 
     // Atualizar a cada 30 segundos
